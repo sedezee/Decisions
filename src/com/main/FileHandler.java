@@ -1,6 +1,7 @@
 package com.main;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -10,7 +11,10 @@ public class FileHandler {
 
     File file; 
 
-    public FileHandler(String fileName) {       
+    String fileName; 
+
+    public FileHandler(String fileName) { 
+        this.fileName = fileName;       
        try { 
            file = new File(fileName); 
            file.createNewFile(); 
@@ -28,5 +32,19 @@ public class FileHandler {
          } catch(IOException e) {
              e.printStackTrace();
          }
-}
+    }
+
+    public char[] readFile() {
+        try {
+            //this file will only ever have to rea the save file. 
+            FileReader fReader = new FileReader(fileName); 
+            char[] charArr = new char[1024];
+            fReader.read(charArr); 
+            fReader.close();  
+            return charArr; 
+        } catch(IOException e) {
+            e.printStackTrace(); 
+        }
+        return null;
+    }
 }

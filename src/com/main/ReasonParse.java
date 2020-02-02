@@ -46,12 +46,11 @@ public class ReasonParse {
     //GETTER METHODS
     //RAWREASON
     public RawReason getReasonByID(int ID) {
-        RawReason rawReason = new RawReason("xxxjkal", 3, "xxxjkal", 3); 
         for(RawReason i : arr) {
             if(i.getID() == ID) 
                 return i; 
         }
-        return rawReason; 
+        return null; 
     }
 
     //LISTS
@@ -67,13 +66,30 @@ public class ReasonParse {
     }
 
     private ArrayList<RawReason> getRawReasons(String group, int cat) {
-        ArrayList<RawReason> arrRes = new ArrayList<>(); 
+        ArrayList<RawReason> arrRes = new ArrayList<RawReason>(); 
         for(RawReason i : arr) {
             if (i.getGroup().equals(group) && i.getInternalCategory() == cat) {
                 arrRes.add(i); 
             }
         }
         return arrRes; 
+    }
+
+    public String getRawReasonsString() {
+        //TODO: Change to StringBuilder
+        StringBuilder sBuilder = new StringBuilder(); 
+        sBuilder.append("}"); 
+        for(RawReason i : arr) {
+            sBuilder.append(i.getGroup()); 
+            sBuilder.append("}"); 
+            sBuilder.append(i.getInternalCategory()); 
+            sBuilder.append("}"); 
+            sBuilder.append(i.getReason()); 
+            sBuilder.append("}"); 
+            sBuilder.append(i.getWeighting());  
+            sBuilder.append("}"); 
+        }
+        return sBuilder.toString(); 
     }
 
     //SUB-CATEGORY LISTS
