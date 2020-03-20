@@ -29,6 +29,7 @@ public class ScannerRun {
         helpPartitions.put("SUMMARY", "Provides a SUMMARY by either CATEGORY or GROUP of all of your reasons."); 
         helpPartitions.put("EXIT", "Completely EXITS the program. All REASONS are discarded."); 
         helpPartitions.put("LOAD",  "Looks for DEFAULT SAVE FILE and LOADS it.");
+        helpPartitions.put("CHANGE", "Allows you to CHANGE portions of the REASONS."); 
     }
 
     private void scannerAdd() {
@@ -140,7 +141,6 @@ public class ScannerRun {
 
                 if (internalChoice.equals("ALL")) {
                     HashMap<String[], Integer> hash = reasonParse.getTotalWeightPerGroupCat(); 
-                    System.out.println(hash.toString()); 
                     System.out.println(scannerHelp.unpackHash(hash)); 
                 } else if (internalChoice.equals("SPECIFIC")) {
                     System.out.println("What CATEGORY would you like a report on?"); 
@@ -180,7 +180,7 @@ public class ScannerRun {
 
     private void scannerSave() {
         FileHandler fileHandler = new FileHandler(saveFileName); 
-        fileHandler.writeFile(reasonParse.getRawReasonsString()); 
+        fileHandler.writeFile(reasonParse.getFileString()); 
     }
 
     private void scannerLoad() {
@@ -229,29 +229,37 @@ public class ScannerRun {
 
     private void scannerChange() {
         while(true) {
-        System.out.println("What ID would you like to change?"); 
-        int ID = scanner.nextInt(); 
-        RawReason rr = reasonParse.getReasonByID(ID); 
-        System.out.println("Would you like to change the GROUP, INTERNAL CATEGORY, or WEIGHT?");
-        String choice = scanner.nextLine();
-        choice = choice.toUpperCase(); 
-        if(choice.equals("GROUP")){
-            System.out.println("What would you like to change the GROUP to?"); 
-            String group = scanner.nextLine(); 
-            rr.setGroup(group); 
-        } else if (choice.equals("INTERNAL CATEGORY") || choice.equals("CAT")) {
-            System.out.println("What would you like to change the INTERNAL CATEGORY to?"); 
-            String cat = scanner.nextLine(); 
-            int intCat = scannerHelp.parseCat(cat); 
-            rr.setInternalCategory(intCat); 
-        } else if (choice.equals("WEIGHT") || choice.equals("WEIGHTING")) {
-            System.out.println("What would you like to change the WEIGHT to?"); 
-            int weight = scanner.nextInt(); 
-            rr.setWeighting(weight); 
-        } else if (choice.equals("MENU")) {
-            break; 
+            System.out.println("What ID would you like to change?"); 
+            String ID = scanner.nextLine(); 
+
+            scannerHelp.exitCheck(scanner, ID); 
+            if(ID.toUpperCase().equals("MENU")) 
+                break; 
+
+            int intID = Integer.parseInt(ID); 
+            RawReason rr = reasonParse.getReasonByID(intID); 
+            System.out.println("Would you like to change the GROUP, INTERNAL CATEGORY, or WEIGHT?");
+            String choice = scanner.nextLine();
+            choice = choice.toUpperCase(); 
+            scannerHelp.exitCheck(scanner, choice); 
+            if(choice.equals("GROUP")){
+                System.out.println("What would you like to change the GROUP to?"); 
+                String group = scanner.nextLine(); 
+                rr.setGroup(group); 
+            } else if (choice.equals("INTERNAL CATEGORY") || choice.equals("CAT")) {
+                System.out.println("What would you like to change the INTERNAL CATEGORY to?"); 
+                String cat = scanner.nextLine(); 
+                int intCat = scannerHelp.parseCat(cat); 
+                rr.setInternalCategory(intCat); 
+            } else if (choice.equals("WEIGHT") || choice.equals("WEIGHTING")) {
+                System.out.println("What would you like to change the WEIGHT to?"); 
+                int weight = scanner.nextInt(); 
+                rr.setWeighting(weight); 
+            } else if (choice.equals("MENU")) {
+                break; 
+            }
         }
-    }}
+    }
 
     public void run() {
         System.out.println("Your options are: ADD, REMOVE, VIEW ALL, VIEW ONE, RECEIPT, SAVE, and SUMMARY."); 

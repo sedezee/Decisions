@@ -75,10 +75,9 @@ public class ReasonParse {
         return arrRes; 
     }
 
-    public String getRawReasonsString() {
+    public String getFileString() {
         //TODO: Change to StringBuilder
         StringBuilder sBuilder = new StringBuilder(); 
-        sBuilder.append("}"); 
         for(RawReason i : arr) {
             sBuilder.append(i.getGroup()); 
             sBuilder.append("}"); 
