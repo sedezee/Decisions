@@ -175,17 +175,21 @@ public class ScannerRun {
         System.out.println("Name your file."); 
         String name = scanner.nextLine(); 
         FileHandler fileHandler = new FileHandler(name + ".txt"); 
-        fileHandler.writeFile(reasonParse.toString());
+        fileHandler.open(); 
+        fileHandler.write(reasonParse.toString());
+        fileHandler.close(); 
     }
 
     private void scannerSave() {
         FileHandler fileHandler = new FileHandler(saveFileName); 
-        fileHandler.writeFile(reasonParse.getFileString()); 
+        fileHandler.open(); 
+        fileHandler.write(reasonParse.getFileString()); 
+        fileHandler.close(); 
     }
 
     private void scannerLoad() {
         FileHandler fileHandler = new FileHandler (saveFileName); 
-        char[] arr = fileHandler.readFile();
+        char[] arr = fileHandler.read();
         ArrayList<String> arrStr = new ArrayList<String>(); 
         String str = ""; 
         for(char a : arr) {
